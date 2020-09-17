@@ -3,9 +3,16 @@ name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
 
+[dev-packages]
+flake8 = "==3.8.3"
+pytest = "==6.0.2"
+
 [packages]
 torch = "==1.4.0"
 transformers = "==3.1.0"
 
 [requires]
 python_version = "3.7.0"
+
+[scripts]
+lint = "flake8 . --max-line-length 100"
