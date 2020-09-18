@@ -4,7 +4,7 @@ from utils import count_parameters
 
 class TestGRU:
 
-    # 自作の GRU クラス
+    # 自分でラップした GRU クラス
     def test(self):
         model = GRU(input_size=1,
                     output_size=8,

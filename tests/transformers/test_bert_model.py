@@ -51,9 +51,9 @@ class TestBertModel:
         assert type(model.classifier) is nn.Linear
 
         # 学習済みBERTモデルの詳細（埋め込み層、エンコーダ層、プーラー層）
-        # assert type(model.bert.embeddings) is BertEmbeddings
-        # assert type(model.bert.encoder) is BertEncoder
-        # assert type(model.bert.pooler) is BertPooler
+        assert type(model.bert.embeddings).__name__ == 'BertEmbeddings'
+        assert type(model.bert.encoder).__name__ == 'BertEncoder'
+        assert type(model.bert.pooler).__name__ == 'BertPooler'
         assert isinstance(model.bert.embeddings, nn.Module)
         assert isinstance(model.bert.encoder, nn.Module)
         assert isinstance(model.bert.pooler, nn.Module)
@@ -64,3 +64,26 @@ class TestBertModel:
         assert type(model.bert.embeddings.token_type_embeddings) is nn.Embedding
         assert type(model.bert.embeddings.LayerNorm) is nn.LayerNorm
         assert type(model.bert.embeddings.dropout) is nn.Dropout
+
+        # エンコーダ層の詳細
+        assert type(model.bert.encoder.layer[0]).__name__ == 'BertLayer'
+        assert type(model.bert.encoder.layer[0].attention).__name__ == 'BertAttention'
+        assert type(model.bert.encoder.layer[0].attention.self).__name__ == 'BertSelfAttention'
+        assert type(model.bert.encoder.layer[0].attention.self.query) is nn.Linear
+        assert type(model.bert.encoder.layer[0].attention.self.key) is nn.Linear
+        assert type(model.bert.encoder.layer[0].attention.self.value) is nn.Linear
+        assert type(model.bert.encoder.layer[0].attention.self.dropout) is nn.Dropout
+        assert type(model.bert.encoder.layer[0].attention.output).__name__ == 'BertSelfOutput'
+        assert type(model.bert.encoder.layer[0].attention.output.dense) is nn.Linear
+        assert type(model.bert.encoder.layer[0].attention.output.LayerNorm) is nn.LayerNorm
+        assert type(model.bert.encoder.layer[0].attention.output.dropout) is nn.Dropout
+        assert type(model.bert.encoder.layer[0].intermediate).__name__ == 'BertIntermediate'
+        assert type(model.bert.encoder.layer[0].intermediate.dense) is nn.Linear
+        assert type(model.bert.encoder.layer[0].output).__name__ == 'BertOutput'
+        assert type(model.bert.encoder.layer[0].output.dense) is nn.Linear
+        assert type(model.bert.encoder.layer[0].output.LayerNorm) is nn.LayerNorm
+        assert type(model.bert.encoder.layer[0].output.dropout) is nn.Dropout
+
+        # プーラー層の詳細
+        assert type(model.bert.pooler.dense) is nn.Linear
+        assert type(model.bert.pooler.activation) is nn.Tanh

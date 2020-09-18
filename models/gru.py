@@ -3,6 +3,7 @@ import torch.nn.functional as F
 import torch.nn as nn
 
 
+# 自分でラップしたGRUクラス
 class GRU(nn.Module):
 
     def __init__(self,
@@ -16,7 +17,7 @@ class GRU(nn.Module):
         self.num_layers = num_layers
         self.d_hidden = d_hidden
 
-        self.gru = nn.GRU(input_size=input_size, 
+        self.gru = nn.GRU(input_size=input_size,
                           hidden_size=d_hidden,
                           num_layers=num_layers,
                           dropout=dropout)
