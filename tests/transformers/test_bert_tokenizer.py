@@ -1,3 +1,4 @@
+import os
 import pytest
 from transformers import BertTokenizer
 
@@ -9,6 +10,7 @@ def tokenizer():
            )
 
 
+@pytest.mark.skipif(os.environ.get('SKIP_BERT', '')=='TRUE', reason='take time')
 class TestBertTokenizer:
 
     def test(self, tokenizer):

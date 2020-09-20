@@ -15,4 +15,4 @@ transformers = "==3.1.0"
 python_version = "3.7.0"
 
 [scripts]
-lint = "flake8 . --max-line-length 100"
+lint = "flake8 . --max-line-length 100 --exclude trellisnet"

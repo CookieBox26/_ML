@@ -1,3 +1,4 @@
+import os
 import pytest
 # import torch
 from torch import nn
@@ -37,6 +38,7 @@ def model():
            )
 
 
+@pytest.mark.skipif(os.environ.get('SKIP_BERT', '')=='TRUE', reason='take time')
 class TestBertModel:
 
     def test(self, model):
