@@ -1,6 +1,6 @@
 # ML
 
-機械学習モデルを動かしてみるためのリポジトリです。PyTorch 1.4.0 を利用しています。参考リンクの機械学習モデルをインポートしています。
+機械学習モデルを動かしてみるためのリポジトリです。PyTorch 1.4.0 を利用しています。その他、参考リンクの機械学習モデルをインポートしています。
 
 ### Quick Usage
 
@@ -43,6 +43,10 @@ torch.Size([1, 14, 13])
 文字レベルの Penn Treebank 予測タスクをしようとしていますが、モデルインスタンスの作成しかしていません。
 
 ### 参考リンク
+- https://github.com/pytorch/pytorch/tree/v1.4.0
+    - PyTorch のリポジトリです（v1.4.0）。
+    - 特に nn.Module のソースは以下です。
+        - https://github.com/pytorch/pytorch/blob/v1.4.0/torch/nn/modules/module.py
 - https://github.com/huggingface/transformers/tree/v3.1.0
     - transformers のリポジトリです（v3.1.0）。
     - 特に BERT モデルのソースは以下です。
