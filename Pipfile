@@ -15,4 +15,8 @@ transformers = "==3.1.0"
 python_version = "3.7.0"
 
 [scripts]
-lint = "flake8 . --max-line-length 100 --exclude trellisnet"
+lint = "flake8 . --max-line-length 100 --exclude trellisnet"  # コードチェック
+test = "bash -c \"export SKIP_BERT= ; pipenv run pytest\""  # テスト
+test_ = "bash -c \"export SKIP_BERT=TRUE ; pipenv run pytest\""  # テスト（軽量）
+list = "bash -c \"pipenv run test ; pipenv run lint\""  # テストとコードチェック
+list_ = "bash -c \"pipenv run test_ ; pipenv run lint\""  # テストとコードチェック（軽量）

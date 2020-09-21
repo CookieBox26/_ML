@@ -38,7 +38,7 @@ def model():
            )
 
 
-@pytest.mark.skipif(os.environ.get('SKIP_BERT', '')=='TRUE', reason='take time')
+@pytest.mark.skipif(os.environ.get('SKIP_BERT', '') == 'TRUE', reason='take time')
 class TestBertModel:
 
     def test(self, model):

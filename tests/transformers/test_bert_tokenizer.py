@@ -10,7 +10,7 @@ def tokenizer():
            )
 
 
-@pytest.mark.skipif(os.environ.get('SKIP_BERT', '')=='TRUE', reason='take time')
+@pytest.mark.skipif(os.environ.get('SKIP_BERT', '') == 'TRUE', reason='take time')
 class TestBertTokenizer:
 
     def test(self, tokenizer):
