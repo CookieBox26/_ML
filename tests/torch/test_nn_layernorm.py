@@ -4,9 +4,13 @@ import math
 
 
 class TestLayerNorm:
+    """ torch.nn.LayerNorm： テンソルを指定の範囲で標準化した後
+    各要素に重みとバイアスを適用する（重みとバイアスの適用はオプショナル）．
+    重みとバイアスを適用する場合はそれらが学習対象になる．
+    """
 
-    def test(self):
-        """ LayerNorm を検算する．
+    def test_values(self):
+        """ LayerNorm の結果を検算する．
         """
         # 適当なテンソルをつくる．
         # 2つの3語文（各単語は4次元に埋め込まれている）が入ったバッチのイメージ．
@@ -24,7 +28,7 @@ class TestLayerNorm:
         model = nn.LayerNorm(normalized_shape=4, eps=1e-12, elementwise_affine=True)
 
         # 含まれるパラメータは weight と bias である（アフィン変換を有効にするとこれを学習）．
-        # それぞれ4次元である．
+        # 単語レベルの場合はそれぞれ4次元である．
         assert type(model.weight) is torch.nn.parameter.Parameter
         assert model.weight.size() == torch.Size([4])
         assert model.weight.requires_grad
@@ -67,6 +71,9 @@ class TestLayerNorm:
 
         # 文章レベルで正規化するとしたらこう.
         model = nn.LayerNorm(normalized_shape=(3, 4), eps=1e-12, elementwise_affine=True)
+        assert model.weight.size() == torch.Size([3, 4])
+        assert model.bias.size() == torch.Size([3, 4])
+
         y = model(x)
         # tensor([[[-1.5933, -1.3036, -1.0139, -0.7242],
         #          [-0.4345, -0.1448,  0.1448,  0.4345],
@@ -95,6 +102,9 @@ class TestLayerNorm:
 
         # バッチレベルで正規化するとしたらこう．
         model = nn.LayerNorm(normalized_shape=(2, 3, 4), eps=1e-12, elementwise_affine=True)
+        assert model.weight.size() == torch.Size([2, 3, 4])
+        assert model.bias.size() == torch.Size([2, 3, 4])
+
         y = model(x)
         # tensor([[[-0.6234, -0.3740, -0.1247,  0.1247],
         #          [ 0.3740,  0.6234,  0.8727,  1.1221],
@@ -112,3 +122,18 @@ class TestLayerNorm:
         assert all([math.isclose(el_actual.item(), el_expected.item(), abs_tol=1e-6)
                     for (el_actual, el_expected)
                     in zip(y.view(-1), x_mod_expected.view(-1))])
+
+    def test_init(self):
+        """ LayerNorm のパラメータの存在を確認する．
+        """
+        # elementwise_affine=True のときは学習対象パラメータ weight, bias が存在する．
+        model = nn.LayerNorm(normalized_shape=4, eps=1e-12, elementwise_affine=True)
+        params = [name for name, param in model.named_parameters()]
+        assert len(params) == 2
+        assert params[0] == 'weight'
+        assert params[1] == 'bias'
+
+        # elementwise_affine=False のときは学習対象パラメータが存在しない．
+        model = nn.LayerNorm(normalized_shape=4, eps=1e-12, elementwise_affine=False)
+        params = [name for name, param in model.named_parameters()]
+        assert len(params) == 0
