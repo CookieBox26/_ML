@@ -1,6 +1,6 @@
 # ML
 
-機械学習モデルを動かしてみるためのリポジトリです。PyTorch 1.4.0 を利用しています。その他、参考リンクの機械学習モデルをインポートしています。
+機械学習モデルを動かしてみるためのリポジトリです。PyTorch を利用しています。その他、参考リンクの機械学習モデルをインポートしています。
 
 ### Quick Usage
 
@@ -12,6 +12,13 @@
 環境をインストールする ```pipenv install --dev```  
 スクリプトを実行する ```pipenv run python script_ner_with_bert.py```  
 テストを実行する ```pipenv run pytest --ignore=tests/trellisnet```
+
+<h5>Windows で pipenv を利用する場合</h5>
+
+- 予め https://www.python.org/downloads/ から Python3.7 をインストールして python と pip にパスを通し、```pip install pipenv``` で pipenv をインストールしてください。
+- Pipfile 内にある通り ```https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl``` から PyTorch をインストールします。GPU 環境でない場合や CUDA 10.2 でない場合などは ```https://download.pytorch.org/whl/torch_stable.html``` からお手元のマシンにインストールできる wheel ファイルを探して書き換えてください。
+- ```pipenv install --dev``` で Python が見つからずに失敗する場合は ```pipenv install --python 3.7 --dev``` としてみてください。
+- それでも Could not find a version that matches torch==1.4.0 となって失敗してしまう場合は ```torch = {version = "==1.4.0", sys_platform = "!= 'win32'"}``` の行を明示的にコメントアウトしてください。
 
 ### 内容物の説明
 - ./script_xxx.py
@@ -53,6 +60,12 @@ Weight normalization applied
 0 バッチ目 tensor(3.9125, grad_fn=<NllLossBackward>)
 1 バッチ目 tensor(3.8557, grad_fn=<NllLossBackward>)
 2 バッチ目 tensor(3.6744, grad_fn=<NllLossBackward>)
+```
+```--use_cuda``` を付けて実行すると GPU で学習します。
+```
+0 バッチ目 tensor(3.9117, device='cuda:0', grad_fn=<NllLossBackward>)
+1 バッチ目 tensor(3.8551, device='cuda:0', grad_fn=<NllLossBackward>)
+2 バッチ目 tensor(3.4490, device='cuda:0', grad_fn=<NllLossBackward>)
 ```
 
 ### 参考リンク
