@@ -30,4 +30,4 @@ def test_unique_chars_in_raw_ptb():
     s = list(s)
     s = [ord(c) for c in s]
     s.sort()
-    assert s[-1] == 122  # 122番までしか使われていない．
+    assert s[-1] == 122  # アスキーコード122までしか使われていない．
