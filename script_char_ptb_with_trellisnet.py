@@ -1,5 +1,6 @@
 # TrellisNet で文字レベル Penn Treebank を学習する．
 
+import argparse
 import torch
 from torch import nn
 import torch.optim as optim
@@ -28,6 +29,18 @@ def batchify(data, batch_size):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--use_cuda", help="use cuda", action="store_true")
+    args = parser.parse_args()
+
+    device = 'cpu'
+    if args.use_cuda and torch.cuda.is_available():
+        print('CUDA を使います．')
+        device = 'cuda:0'
+        torch.cuda.manual_seed(26)
+    elif args.use_cuda:
+        print('CUDA を使えません．')
+
     # Penn Treebank を取得する．
     # 訓練用，テスト用，検証用のコーパス（文字列）が取得される．
     x_train, x_test, x_valid = ptb("./data")  # 初回はダウンロードが走る．
@@ -51,17 +64,21 @@ def main():
     print(char2idx)
 
     # データをIDのテンソル化しておく．
-    x_train = torch.tensor([char2idx[c] for c in x_train])
-    x_valid = torch.tensor([char2idx[c] for c in x_valid])
-    x_test = torch.tensor([char2idx[c] for c in x_test])
+    x_train = torch.tensor([char2idx[c] for c in x_train], device=device)
+    x_valid = torch.tensor([char2idx[c] for c in x_valid], device=device)
+    x_test = torch.tensor([char2idx[c] for c in x_test], device=device)
 
     # 訓練データをバッチサイズ本ずつモデルに食わせられるように整形する．
     # torch.Size([5101618]) --> torch.Size([212567, 24])
-    batch_size = 24
+    batch_size = 8
     x_train = batchify(x_train, batch_size)
 
     # モデル，損失関数，オプティマイザを用意する．
     model = TrellisNetModel(ntoken=ntoken, ninp=200, nhid=1050, nout=200, nlevels=140)
+    if device == 'cuda:0':
+        model.cuda()
+    else:
+        model.cpu()
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=2e-3, weight_decay=8e-7)
 
@@ -69,7 +86,7 @@ def main():
     model.train()
     aux = 0.3
     clip = 0.2
-    seq_len = 40
+    seq_len = 64
     for batch, i in enumerate(range(0, x_train.size(0) - 1, seq_len)):
         optimizer.zero_grad()
         data = x_train[i:(i + seq_len)].t()
@@ -80,10 +97,10 @@ def main():
         decoded = decoded.transpose(0, 1)
 
         targets = x_train[(i + 1):(i + 1 + seq_len)].contiguous().view(-1)
-        final_decoded = decoded.contiguous().view(-1, ntoken)
+        final_decoded = decoded.contiguous().view(-1, ntoken).to(device=device)  # TODO
         raw_loss = criterion(final_decoded, targets)
 
-        all_decoded = all_decoded.permute(1, 2, 0, 3).contiguous()
+        all_decoded = all_decoded.permute(1, 2, 0, 3).contiguous().to(device=device)  # TODO
         aux_size = all_decoded.size(0)
         all_decoded = all_decoded.view(aux_size, -1, ntoken)
         aux_losses = aux * sum([criterion(all_decoded[i], targets) for i in range(aux_size)])

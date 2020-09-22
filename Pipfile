@@ -8,7 +8,8 @@ flake8 = "==3.8.3"
 pytest = "==6.0.2"
 
 [packages]
-torch = "==1.4.0"
+torch = {version = "==1.4.0", sys_platform = "!= 'win32'"}
+torch_win = {file = "https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl", sys_platform = "== 'win32'"}
 transformers = "==3.1.0"
 observations = "==0.1.4"
 
@@ -16,8 +17,8 @@ observations = "==0.1.4"
 python_version = "3.7.0"
 
 [scripts]
-lint = "flake8 . --max-line-length 100 --exclude trellisnet"  # コードチェック
-test = "bash -c \"export SKIP_BERT= ; pipenv run pytest\""  # テスト
-test_ = "bash -c \"export SKIP_BERT=TRUE ; pipenv run pytest\""  # テスト（軽量）
-list = "bash -c \"pipenv run test ; pipenv run lint\""  # テストとコードチェック
-list_ = "bash -c \"pipenv run test_ ; pipenv run lint\""  # テストとコードチェック（軽量）
+lint = "flake8 . --max-line-length 100 --exclude trellisnet"
+test = "bash -c \"export SKIP_BERT= ; pipenv run pytest\""
+test_ = "bash -c \"export SKIP_BERT=TRUE ; pipenv run pytest\""
+list = "bash -c \"pipenv run test ; pipenv run lint\""
+list_ = "bash -c \"pipenv run test_ ; pipenv run lint\""
