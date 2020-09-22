@@ -16,9 +16,9 @@
 <h5>Windows で pipenv を利用する場合</h5>
 
 - 予め https://www.python.org/downloads/ から Python3.7 をインストールして python と pip にパスを通し、```pip install pipenv``` で pipenv をインストールしてください。
-- Pipfile 内にある通り ```https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl``` から PyTorch をインストールします。GPU 環境でない場合や CUDA 10.2 でない場合などは ```https://download.pytorch.org/whl/torch_stable.html``` からお手元のマシンにインストールできる wheel ファイルを探して書き換えてください。
+- Pipfile 内にある通り ```https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl``` から PyTorch をインストールします。GPU 環境でない場合や CUDA 10.2 でない場合などは https://download.pytorch.org/whl/torch_stable.html からお手元のマシンにインストールできる wheel ファイルを探して書き換えてください。
+- <b>Pipfile からインストールする前に ```torch = {version = "==1.6.0", sys_platform = "!= 'win32'"}``` の行を明示的にコメントアウトしてください。コメントアウトしないと失敗します。 </b>
 - ```pipenv install --dev``` で Python が見つからずに失敗する場合は ```pipenv install --python 3.7 --dev``` としてみてください。
-- それでも Could not find a version that matches torch==1.4.0 となって失敗してしまう場合は ```torch = {version = "==1.4.0", sys_platform = "!= 'win32'"}``` の行を明示的にコメントアウトしてください。
 
 ### 内容物の説明
 - ./script_xxx.py
