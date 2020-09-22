@@ -17,8 +17,14 @@ observations = "==0.1.4"
 python_version = "3.7.0"
 
 [scripts]
-lint = "flake8 . --max-line-length 100 --exclude trellisnet"
+lint = "flake8 . --max-line-length 100 --exclude ./trellisnet/"
+# for linux
 test = "bash -c \"export SKIP_BERT= ; pipenv run pytest\""
 test_ = "bash -c \"export SKIP_BERT=TRUE ; pipenv run pytest\""
-list = "bash -c \"pipenv run test ; pipenv run lint\""
-list_ = "bash -c \"pipenv run test_ ; pipenv run lint\""
+tent = "bash -c \"pipenv run test ; pipenv run lint\""
+tent_ = "bash -c \"pipenv run test_ ; pipenv run lint\""
+# for windows
+wtest = "cmd /c \"set SKIP_BERT=&&pipenv run pytest\""
+wtest_ = "cmd /c \"set SKIP_BERT=TRUE&&pipenv run pytest\""
+wtent = "cmd /c \"pipenv run wtest&&pipenv run lint\""
+wtent_ = "cmd /c \"pipenv run wtest_&&pipenv run lint\""
