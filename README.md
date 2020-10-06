@@ -6,18 +6,18 @@
 
 #### pipenv を利用しない場合
 スクリプトを実行する ```python script_ner_with_bert.py```  
-テストを実行する ```pytest --ignore=tests/trellisnet```
+テストを実行する ```pytest --ignore=./tests/trellisnet --ignore=./TCN/```
 
 #### pipenv を利用する場合
 環境をインストールする ```pipenv install --dev```  
 スクリプトを実行する ```pipenv run python script_ner_with_bert.py```  
-テストを実行する ```pipenv run pytest --ignore=tests/trellisnet```
+テストを実行する ```pipenv run pytest --ignore=./tests/trellisnet --ignore=./TCN/```
 
 <h5>Windows で pipenv を利用する場合</h5>
 
 - 予め https://www.python.org/downloads/ から Python3.7 をインストールして python と pip にパスを通し、```pip install pipenv``` で pipenv をインストールしてください。
 - Pipfile 内にある通り ```https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl``` から PyTorch をインストールします。GPU 環境でない場合や CUDA 10.2 でない場合などは https://download.pytorch.org/whl/torch_stable.html からお手元のマシンにインストールできる wheel ファイルを探して書き換えてください。
-- <b>Pipfile からインストールする前に ```torch = {version = "==1.6.0", sys_platform = "!= 'win32'"}``` の行を明示的にコメントアウトしてください(重要)。</b>
+- <b>Pipfile からインストールする前に ```torch = {version = "==1.6.0", sys_platform = "!= 'win32'"}``` の行を明示的にコメントアウトしてください（重要）。</b>
 - 後は通常通り ```pipenv install --dev``` で環境をインストールしてください。Python が見つからずに失敗する場合は ```pipenv install --python 3.7 --dev``` としてみてください。
 
 ### 内容物の説明
@@ -25,7 +25,9 @@
     - 各種の機械学習タスクを実行するスクリプトです。が、まだ工事中です。
     - TrellisNet を利用するスクリプトの場合は、./trellisnet/ を取得してから実行する必要があります。
 - ./tests/
-    - テストですが、テストとみせかけて、各種モデルの仕様のメモです。```pytest``` ですべてのテストを実行しますが、./trellisnet/ を取得していない場合は TrellisNet のテストはできないので ```pytest --ignore=tests/trellisnet``` とする必要があります。
+    - テストですが、テストとみせかけて、各種モデルの仕様のメモです。```pytest``` でテストを実行します。ただし、
+        - ./trellisnet/ を取得していない場合は TrellisNet のテストはできないので ```pytest --ignore=./tests/trellisnet``` とする必要があります。
+        - ./TCN/ を取得している場合、このリポジトリ内にファイル名に test が付くファイルがあるので ```--ignore=./TCN/``` も付ける必要があります。
     - 環境変数 ```export SKIP_BERT=TRUE``` を設定すると BERT を読み込むテスト（時間がかかる）をスキップできます。
 - ./data/
     - 取得したデータを置くところです。
@@ -33,9 +35,10 @@
     - 自分で定義したモデルを置くところです。
 - ./utils.py
     - 自分で定義した便利関数を書くところです。
+- ./TCN/
+    - TCN のソースコードを置くところです。デフォルトで同梱していません。このディレクトリ内で以下のように取得してください。なお、TCN の本家のリポジトリのフォルダ構成ではモデルを読み込めないので、必ず CookieBox26 の Fork を取得してください。<br/> ```git clone https://github.com/CookieBox26/TCN.git```
 - ./trellisnet/
     - TrellisNet のソースコードを置くところです。デフォルトで同梱していません。このディレクトリ内で以下のように取得してください。なお、TrellisNet の本家のリポジトリのフォルダ構成ではモデルを読み込めないので、必ず CookieBox26 の Fork を取得してください。<br/> ```git clone https://github.com/CookieBox26/trellisnet.git```
-
 
 ### 各スクリプトの説明
 
@@ -77,7 +80,11 @@ Weight normalization applied
     - transformers のリポジトリです（v3.1.0）。
     - 特に BERT モデルのソースは以下です。
         - https://github.com/huggingface/transformers/blob/v3.1.0/src/transformers/modeling_bert.py
+- https://github.com/locuslab/TCN
+    - [TCN](https://arxiv.org/abs/1803.01271) のリポジトリです。
+    - 使い勝手のために以下にフォークしています。
+        - https://github.com/CookieBox26/TCN
 - https://github.com/locuslab/trellisnet
-    - TrellisNet のリポジトリです。
+    - [TrellisNet](https://arxiv.org/abs/1810.06682) のリポジトリです。
     - 使い勝手のために以下にフォークしています。
         - https://github.com/CookieBox26/trellisnet
