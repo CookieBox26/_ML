@@ -72,10 +72,10 @@ Weight normalization applied
 ```
 
 ### 参考リンク
-- https://github.com/pytorch/pytorch/tree/v1.4.0
-    - PyTorch のリポジトリです（v1.4.0）。
+- https://github.com/pytorch/pytorch/tree/v1.6.0
+    - PyTorch のリポジトリです（v1.6.0）。
     - 特に nn.Module のソースは以下です。
-        - https://github.com/pytorch/pytorch/blob/v1.4.0/torch/nn/modules/module.py
+        - https://github.com/pytorch/pytorch/blob/v1.6.0/torch/nn/modules/module.py
 - https://github.com/huggingface/transformers/tree/v3.1.0
     - transformers のリポジトリです（v3.1.0）。
     - 特に BERT モデルのソースは以下です。
