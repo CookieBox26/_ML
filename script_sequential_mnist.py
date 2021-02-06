@@ -88,4 +88,5 @@ def main(arch='gru', id='hoge', weight_dict=None, epochs=10):
 
 if __name__ == '__main__':
     main(arch='gru', weight_dict='./weights/gru_sequential_mnist_sample.dict', epochs=0)
+    main(arch='tcn', weight_dict='./weights/tcn_sequential_mnist_sample.dict', epochs=0)
     # main(arch='tcn', epochs=1)

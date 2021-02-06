@@ -8,14 +8,16 @@ flake8 = "==3.8.3"
 pytest = "==6.0.2"
 
 [packages]
-torch = {version = "==1.6.0", sys_platform = "!= 'win32'"}
-torch_win = {file = "https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl", sys_platform = "== 'win32'"}
-transformers = "==3.1.0"
+# torch = {version = "==1.6.0", sys_platform = "!= 'win32'"}
+# torch_win = {file = "https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl", sys_platform = "== 'win32'"}
+torch = "==1.7.1"
+transformers = "==4.2.2"
+torchvision = "==0.8.2"
 observations = "==0.1.4"
-optuna = "==2.1.0"
+optuna = "==2.5.0"
 
 [requires]
-python_version = "3.7.0"
+python_version = "3.7"
 
 [scripts]
 lint = "flake8 . --max-line-length 100 --exclude ./trellisnet/,./TCN/"

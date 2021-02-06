@@ -13,12 +13,14 @@
 スクリプトを実行する ```pipenv run python script_ner_with_bert.py```  
 テストを実行する ```pipenv run pytest --ignore=./tests/TCN --ignore=./tests/trellisnet --ignore=./TCN/```
 
+<!--
 <h5>Windows で pipenv を利用する場合</h5>
 
 - 予め https://www.python.org/downloads/ から Python3.7 をインストールして python と pip にパスを通し、```pip install pipenv``` で pipenv をインストールしてください。
 - Pipfile 内にある通り ```https://download.pytorch.org/whl/cu102/torch-1.6.0-cp37-cp37m-win_amd64.whl``` から PyTorch をインストールします。GPU 環境でない場合や CUDA 10.2 でない場合などは https://download.pytorch.org/whl/torch_stable.html からお手元のマシンにインストールできる wheel ファイルを探して書き換えてください。
 - <b>Pipfile からインストールする前に ```torch = {version = "==1.6.0", sys_platform = "!= 'win32'"}``` の行を明示的にコメントアウトしてください（重要）。</b>
 - 後は通常通り ```pipenv install --dev``` で環境をインストールしてください。Python が見つからずに失敗する場合は ```pipenv install --python 3.7 --dev``` としてみてください。
+-->
 
 ### 内容物の説明
 - ./script_xxx.py
@@ -45,14 +47,17 @@
 ### 各スクリプトの説明
 
 #### script_sequential_mnist.py
-MNISTを1次元系列として扱ってどの数字が分類するタスクをGRUまたはTCNで解きます。GRUについては10エポック学習したパラメータを同梱しています。これを指定して訓練をスキップすると以下のように表示されます。
+MNISTを1次元系列として扱ってどの数字が分類するタスクをGRUまたはTCNで解きます。10エポック学習したパラメータを同梱しています。これを指定して訓練をスキップすると以下のように表示されます。
 ```
+# GRU
 テストデータでの平均損失 0.09641245974451304
 テストデータでの正解率 9694/10000 (96.94%)
+# TCN
+テストデータでの平均損失 0.07634854557925573
+テストデータでの正解率 9805/10000 (98.05%)
 ```
 
-TCNはまだ学習済みパラメータを同梱していません。  
-どちらのモデルでも正のエポック数を指定すると以下のように学習が始まります。
+正のエポック数を指定すると以下のように学習が始まります。
 ```
 エポック 0
 10/938 バッチ (640/60000 サンプル) 流れました  最近 10 バッチの平均損失 2.3024290084838865
