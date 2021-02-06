@@ -81,7 +81,7 @@ def main(arch='gru', id='hoge', weight_dict=None, epochs=10):
         print(f'エポック {epoch}')
         train(model, optimizer, train_loader)
         test(model, test_loader)
-        torch.save(model.state_dict(), f'./weights/gru_sequential_mnist_{id}_{epoch}.dict')
+        torch.save(model.state_dict(), f'./weights/{arch}_sequential_mnist_{id}_{epoch}.dict')
 
     test(model, test_loader)
 
