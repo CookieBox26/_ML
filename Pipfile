@@ -22,6 +22,8 @@ lint = "flake8 . --max-line-length 100 --exclude ./trellisnet/,./TCN/"
 # for linux
 test = "bash -c \"export SKIP_BERT= ; pipenv run pytest --ignore=./TCN/\""
 test_ = "bash -c \"export SKIP_BERT=TRUE ; pipenv run pytest --ignore=./TCN/\""
+testi = "bash -c \"export SKIP_BERT= ; pipenv run pytest --ignore=./tests/TCN --ignore=./tests/trellisnet --ignore=./TCN/\""
+testi_ = "bash -c \"export SKIP_BERT=TRUE ; pipenv run pytest --ignore=./tests/TCN --ignore=./tests/trellisnet --ignore=./TCN/\""
 tent = "bash -c \"pipenv run test ; pipenv run lint\""
 tent_ = "bash -c \"pipenv run test_ ; pipenv run lint\""
 # for windows
