@@ -5,6 +5,7 @@ import torch
 import torch.nn.functional as F
 from torch.autograd import Variable
 import torch.optim as optim
+import numpy as np
 
 
 # 1エポック学習します
@@ -60,11 +61,13 @@ def test(model, test_loader):
 #  - id : 吐き出す重みファイルの識別子です
 #  - weight_dict : 既に重みファイルがあれば読み込みます
 #  - epochs : エポック数です 0にすると訓練スキップになります
-def main(arch='gru', id='hoge', weight_dict=None, epochs=10):
-    batch_size = 64
-    
-    train_loader, test_loader = MNIST(batch_size=batch_size, sequential=True,
-                                      sequential_rnn=(arch != 'tcn'))
+#  - permute : これを指定すると系列をこのインデックスの順序に入れ換えます
+def main(arch='gru', id='hoge', weight_dict=None, epochs=10, permute=None):
+    batch_size = 64 
+    train_loader, test_loader = MNIST(batch_size=batch_size,
+                                      sequential=(arch == 'tcn'),
+                                      sequential_rnn=(arch != 'tcn'),
+                                      permute=permute)
     if arch == 'tcn':
         model = TCN(input_size=1, output_size=10, num_channels=[25]*8,
                     kernel_size=7, dropout=0.0)
@@ -87,6 +90,15 @@ def main(arch='gru', id='hoge', weight_dict=None, epochs=10):
 
 
 if __name__ == '__main__':
+    np.random.seed(0)
+    torch.manual_seed(0)
+
     main(arch='gru', weight_dict='./weights/gru_sequential_mnist_sample.dict', epochs=0)
     main(arch='tcn', weight_dict='./weights/tcn_sequential_mnist_sample.dict', epochs=0)
+    # main(arch='gru', epochs=1)
     # main(arch='tcn', epochs=1)
+
+    # Permuted MNIST をする場合
+    permute = np.random.permutation(784)
+    # main(arch='gru', epochs=1, permute=permute)
+    # main(arch='tcn', epochs=1, permute=permute)
