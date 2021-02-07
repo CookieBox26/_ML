@@ -1,8 +1,16 @@
 # ML
 
-機械学習モデルを動かしてみるためのリポジトリです。PyTorch を利用しています。その他、参考リンクの機械学習モデルをインポートしています。
+色々なタスクを実行するスクリプトを置くリポジトリです。PyTorch を使用しています。
 
-### Quick Usage
+- [Usage](#usage)
+- [内容物](#内容物)
+- [各スクリプトの説明](#各スクリプトの説明)
+  - [script_sequential_mnist.py](#script_sequential_mnistpy)
+  - [script_ner_with_bert.py](#script_ner_with_bertpy)
+  - [script_char_ptb_with_trellisnet.py](#script_char_ptb_with_trellisnetpy)
+- [リンク](#リンク)
+
+### Usage
 
 #### pipenv を利用しない場合
 スクリプトを実行する ```python script_ner_with_bert.py```  
@@ -22,12 +30,12 @@
 - 後は通常通り ```pipenv install --dev``` で環境をインストールしてください。Python が見つからずに失敗する場合は ```pipenv install --python 3.7 --dev``` としてみてください。
 -->
 
-### 内容物の説明
+### 内容物
 - ./script_xxx.py
-    - 各種の機械学習タスクを実行するスクリプトです。が、まだ工事中です。
+    - 各タスクを実行するスクリプトです。
     - TrellisNet を利用するスクリプトの場合は、./trellisnet/ を取得してから実行する必要があります。
 - ./tests/
-    - テストですが、テストとみせかけて、各種モデルの仕様のメモです。```pytest``` でテストを実行します。ただし、
+    - テストですがテストとみせかけて各種モデルの仕様のメモです。```pytest``` でテストを実行します。ただし、
         - ./trellisnet/ を取得していない場合は TrellisNet のテストはできないので ```pytest --ignore=./tests/trellisnet``` とする必要があります。
         - ./TCN/ を取得している場合、このリポジトリ内にファイル名に test が付くファイルがあるので ```--ignore=./TCN/``` も付ける必要があります。
     - 環境変数 ```export SKIP_BERT=TRUE``` を設定すると BERT を読み込むテスト（時間がかかる）をスキップできます。
@@ -38,7 +46,7 @@
 - ./weights/
     - 学習したモデルの重みを置くところです。
 - ./utils/
-    - 自分で定義した便利関数を置くところです。
+    - 自分で定義した関数を置くところです。
 - ./TCN/
     - TCN のソースコードを置くところです。デフォルトで同梱していません。このディレクトリ内で以下のように取得してください。なお、TCN の本家のリポジトリのフォルダ構成ではモデルを読み込めないので、必ず CookieBox26 の Fork を取得してください。<br/> ```git clone https://github.com/CookieBox26/TCN.git```
 - ./trellisnet/
@@ -66,6 +74,7 @@ MNISTを1次元系列として扱ってどの数字が分類するタスクをGR
 40/938 バッチ (2560/60000 サンプル) 流れました  最近 10 バッチの平均損失 1.9509142518043519
 50/938 バッチ (3200/60000 サンプル) 流れました  最近 10 バッチの平均損失 1.236298155784607
 ```
+Permuted MNIST も学習できます。
 
 以下補足です。
 - 手抜きのためにTCNの著者のコードではなく自分でクラスをかきかえたコード ./models/tcn.py を参照していますが動作は同じです（そのため ./TCN/ を取得しなくても動きます）。
@@ -103,7 +112,7 @@ Weight normalization applied
 2 バッチ目 tensor(3.4490, device='cuda:0', grad_fn=<NllLossBackward>)
 ```
 
-### 参考リンク
+### リンク
 - https://github.com/pytorch/pytorch/tree/v1.6.0
     - PyTorch のリポジトリです（v1.6.0）。
     - 特に nn.Module のソースは以下です。
